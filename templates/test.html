@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Bounce Game</title>
+        <style>
+            body{
+                margin: 0;
+                background: #6190E8;  /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #A7BFE8, #6190E8);  /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #A7BFE8, #6190E8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+
+            #bar{
+                width: 250px;
+                height: 20px;
+                border-radius: 5px;
+                position: absolute;
+                top: 90%;
+                background: #1604b3;  /* fallback for old browsers */
+                background: -webkit-linear-gradient(to right, #021B79, #1604b3);  /* Chrome 10-25, Safari 5.1-6 */
+                background: linear-gradient(to right, #021B79, #1604b3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container" style="height:100vh; width:100vw">
+            <div id="bar">
+
+            </div>
+        </div>
+        <script>
+            var bar = document.getElementById("bar");
+
+            document.addEventListener("mousemove", function(e){
+                bar.style.left = ((e.clientX)-(bar.offsetWidth/2))+"px"; 
+                if (e.clientX<(bar.offsetWidth/2)){
+                    bar.style.left = 0+"px";
+                }
+
+                else if (e.clientX>(window.screen.availWidth-(bar.offsetWidth/2))){
+                    bar.style.left = (window.screen.availWidth-(bar.offsetWidth))+"px";
+                }
+            })
+        </script>
+    </body>
+</html>
