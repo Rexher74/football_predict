@@ -19,7 +19,7 @@ def home():
         return redirect("/register")
     else:
         usernameSession = session["username"]
-        return render_template('home.html', usernameSession)
+        return render_template('home.html', usernameSession=usernameSession)
 
 @app.route("/register")
 def register():
