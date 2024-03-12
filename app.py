@@ -21,7 +21,7 @@ def home():
         passwordTest = "This is also a test"
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO main (username, password) VALUES (%s, %s)", (usernameTest, passwordTest))
+        cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (usernameTest, passwordTest))
         mysql.connection.commit()
 
         return redirect("/register")
