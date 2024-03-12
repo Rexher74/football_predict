@@ -3,7 +3,19 @@
     <head>
         <title>Register</title>
     </head>
+    <style>
+        
+    </style>
     <body>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div style="background-color: #ff2f2f9d">
+                        <strong>{{message}}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <form action="/register-user" style="display: block;">
             <h1>Register</h1>
             <input placeholder="Create a username..." type="text" name="usernameRegister">
