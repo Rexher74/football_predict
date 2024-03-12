@@ -33,7 +33,7 @@ def login():
 def registerUser():
     usernameRegister = request.form.get("usernameRegister")
     passwordRegister = request.form.get("passwordRegister")
-    codeRegister = request.form.get("codeRegister")
+    codeRegister = str(request.form.get("codeRegister"))
 
     if codeRegister == "bellingham5":
         cur = mysql.connection.cursor()
