@@ -35,9 +35,7 @@ def registerUser():
     passwordRegister = request.form.get("passwordRegister")
     codeRegister = request.form.get("codeRegister")
 
-    codeAccess = "bellingham5"
-
-    if codeRegister == codeAccess:
+    if codeRegister == "bellingham5":
         cur = mysql.connection.cursor()
         cur.execute("SELECT username FROM users WHERE LOWER(username) = %s", [usernameRegister.lower()])
         sameUsername = cur.fetchall()
