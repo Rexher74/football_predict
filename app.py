@@ -1,22 +1,29 @@
 from flask import Flask, render_template, session, request, redirect
 import os
+from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 
 app.secret_key = os.getenv('SECRET_KEY')
 
-class User:
-    def __init__(self, username, password):
-        self.id = len(users)
-        self.username = username
-        self.password = password
+app.config["MYSQL_HOST"] = os.getenv('MYSQL_HOST')
+app.config["MYSQL_USER"] = os.getenv('MYSQL_USER')
+app.config["MYSQL_PASSWORD"] = os.getenv('MYSQL_PASSWORD')
+app.config["MYSQL_DB"] = os.getenv('MYSQL_DB')
 
-# Users List
-users = []
+mysql = MySQL(app)
 
 @app.route('/')
 def home():
     if session.get('username') is None:
+
+        usernameTest = "This is a test"
+        passwordTest = "This is also a test"
+
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO main (username, password) VALUES (%s, %s)", (usernameTest, passwordTest))
+        mysql.connection.commit()
+
         return redirect("/register")
     else:
         usernameSession = session["username"]
@@ -28,35 +35,19 @@ def register():
 
 @app.route('/register-user')
 def registerUser():
-    usernameRegister = request.form.get("usernameRegister")
-    passwordRegister = request.form.get("passwordRegister")
+    #usernameRegister = request.form.get("usernameRegister")
+    #passwordRegister = request.form.get("passwordRegister")
 
-    alreadyExistsUsername = False
-    indexIter = 0
     
-    while alreadyExistsUsername and indexIter < len(users):
-        if users[indexIter].username == usernameRegister:
-            alreadyExistsUsername = True
-        indexIter += 1
-    
-    if (alreadyExistsUsername):
-        return redirect("/register-user")
-    
-    else:
-        newUser = User(usernameRegister, passwordRegister)
-        users.append(newUser)
         
-        return redirect("/login")
+    return redirect("/login")
 
 @app.route("/access")
 def access():
-    usernameLogin = request.form.get("usernameLogin")
-    passwordLogin = request.form.get("passwordLogin")
+    #usernameLogin = request.form.get("usernameLogin")
+    #passwordLogin = request.form.get("passwordLogin")
 
-    for user in users:
-        if user.username == usernameLogin and user.password == passwordLogin:
-            session["username"] = usernameLogin
-            return redirect("/")
+    
 
     return redirect("/login")
 
