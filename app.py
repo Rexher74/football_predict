@@ -2,11 +2,9 @@ from flask import Flask, render_template, session, request, redirect
 
 app = Flask(__name__)
 
-user_id = 0
-
 class User:
     def __init__(self, username, password):
-        self.id = user_id
+        self.id = len(users)
         self.username = username
         self.password = password
 
@@ -44,7 +42,6 @@ def registerUser():
     else:
         newUser = User(usernameRegister, passwordRegister)
         users.append(newUser)
-        user_id += 1
         
         return redirect("/login")
 
