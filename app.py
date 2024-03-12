@@ -2,6 +2,8 @@ from flask import Flask, render_template, session, request, redirect
 
 app = Flask(__name__)
 
+app.secret_key = SECRET_KEY
+
 class User:
     def __init__(self, username, password):
         self.id = len(users)
