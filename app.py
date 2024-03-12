@@ -16,14 +16,6 @@ mysql = MySQL(app)
 @app.route('/')
 def home():
     if session.get('username') is None:
-
-        usernameTest = "This is a test"
-        passwordTest = "This is also a test"
-
-        cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (usernameTest, passwordTest))
-        mysql.connection.commit()
-
         return redirect("/register")
     else:
         usernameSession = session["username"]
@@ -33,24 +25,51 @@ def home():
 def register():
     return render_template('register.html')
 
-@app.route('/register-user')
-def registerUser():
-    #usernameRegister = request.form.get("usernameRegister")
-    #passwordRegister = request.form.get("passwordRegister")
-
-    
-        
-    return redirect("/login")
-
-@app.route("/access")
-def access():
-    #usernameLogin = request.form.get("usernameLogin")
-    #passwordLogin = request.form.get("passwordLogin")
-
-    
-
-    return redirect("/login")
-
 @app.route("/login")
 def login():
     return render_template("login.html")
+
+@app.route('/register-user')
+def registerUser():
+    usernameRegister = request.form.get("usernameRegister")
+    passwordRegister = request.form.get("passwordRegister")
+    codeRegister = request.form.get("codeRegister")
+
+    codeAccess = "bellingham5"
+
+    if codeRegister == codeAccess:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT username FROM users WHERE LOWER(username) = %s", [usernameRegister.lower()])
+        sameUsername = cur.fetchall()
+        if not sameUsername:
+            cur = mysql.connection.cursor()
+            cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (usernameRegister, passwordRegister))
+            mysql.connection.commit()
+            return redirect("/login")
+        else:
+            return redirect("/register")
+
+    else:
+        return redirect("/register")
+
+    
+
+@app.route("/access")
+def access():
+    usernameLogin = request.form.get("usernameLogin")
+    passwordLogin = request.form.get("passwordLogin")
+
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM users WHERE LOWER(username) = %s", [usernameLogin.lower()])
+    listInfoUserAccess = cur.fetchall()
+    if not usernameLogin:
+        return redirect("/login")
+    else:
+        userInfoAccess = listInfoUserAccess[0]
+
+        if userInfoAccess[2] == passwordLogin:
+            session["user_id"] = userInfoAccess[0]
+            session["username"] = usernameLogin
+            return redirect("/")
+        else:
+            return redirect("/login")
