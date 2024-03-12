@@ -1,9 +1,23 @@
 from flask import Flask, render_template, session, request, redirect
+from flask_mysqldb import MySQL
+
 app = Flask(__name__)
+
+app.config["MYSQL_HOST"] = MYSQL_HOST
+app.config["MYSQL_USER"] = MYSQL_USER
+app.config["MYSQL_PASSWORD"] = MYSQL_PASSWORD
+app.config["MYSQL_DB"] = MYSQL_DB
+
+mysql = MySQL(app)
 
 @app.route('/')
 def home():
     if session.get('username') is None:
+        testU = "test_username"
+        testP = "test_password"
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO main (username, password) VALUES (%s, %s)", (testU, testP))
+        mysql.connection.commit()
         return redirect("/register")
     else:
         usernameSession = session["username"]
