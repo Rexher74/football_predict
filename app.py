@@ -62,7 +62,7 @@ def access():
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM users WHERE LOWER(username) = %s", [usernameLogin.lower()])
     listInfoUserAccess = cur.fetchall()
-    if not usernameLogin:
+    if not listInfoUserAccess:
         flash("Incorrect username!")
         return render_template("login.html")
     else:
