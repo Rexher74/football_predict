@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, request, redirect
+from flask import Flask, render_template, session, request, redirect, flash
 import os
 from flask_mysqldb import MySQL
 
@@ -47,10 +47,12 @@ def registerUser():
             mysql.connection.commit()
             return redirect("/login")
         else:
-            return redirect("/register")
+            flash("This username already exists!")
+            return render_template('register.html')
 
     else:
-        return redirect("/register")
+        flash("Incorrect access code!")
+        return render_template('register.html')
 
     
 
@@ -63,7 +65,8 @@ def access():
     cur.execute("SELECT * FROM users WHERE LOWER(username) = %s", [usernameLogin.lower()])
     listInfoUserAccess = cur.fetchall()
     if not usernameLogin:
-        return redirect("/login")
+        flash("Incorrect username!")
+        return render_template("login.html")
     else:
         userInfoAccess = listInfoUserAccess[0]
 
@@ -72,4 +75,5 @@ def access():
             session["username"] = usernameLogin
             return redirect("/")
         else:
-            return redirect("/login")
+            flash("Incorrect password!")
+            return render_template("login.html")
