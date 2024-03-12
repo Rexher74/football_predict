@@ -29,11 +29,11 @@ def register():
 def login():
     return render_template("login.html")
 
-@app.route('/register-user')
+@app.route('/register-user', methods=["POST"])
 def registerUser():
     usernameRegister = request.form.get("usernameRegister")
     passwordRegister = request.form.get("passwordRegister")
-    codeRegister = str(request.form.get("codeRegister"))
+    codeRegister = request.form.get("codeRegister")
 
     if codeRegister == "bellingham5":
         cur = mysql.connection.cursor()
@@ -54,7 +54,7 @@ def registerUser():
 
     
 
-@app.route("/access")
+@app.route("/access", methods=["POST"])
 def access():
     usernameLogin = request.form.get("usernameLogin")
     passwordLogin = request.form.get("passwordLogin")
