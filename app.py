@@ -19,7 +19,12 @@ def home():
         return redirect("/register")
     else:
         usernameSession = session["username"]
-        return render_template('home.html', usernameSession=usernameSession)
+
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT username, points FROM users ORDER BY points DESC")
+        usersToLoad = cur.fetchall()
+
+        return render_template('home.html', usernameSession = usernameSession, usersToLoad = usersToLoad)
 
 @app.route("/register")
 def register():
@@ -33,9 +38,9 @@ def login():
 def registerUser():
     usernameRegister = request.form.get("usernameRegister")
     passwordRegister = request.form.get("passwordRegister")
-    codeRegister = request.form.get("codeRegister")
+    codeRegister = str(request.form.get("codeRegister"))
 
-    if codeRegister == "bellingham5":
+    if codeRegister == "realoviedoaprimera":
         cur = mysql.connection.cursor()
         cur.execute("SELECT username FROM users WHERE LOWER(username) = %s", [usernameRegister.lower()])
         sameUsername = cur.fetchall()
@@ -46,13 +51,12 @@ def registerUser():
             return redirect("/login")
         else:
             flash("This username already exists!")
-            return render_template('register.html')
+            return redirect("/register")
 
     else:
         flash("Incorrect access code!")
-        return render_template('register.html')
+        return redirect("/register")
 
-    
 
 @app.route("/access", methods=["POST"])
 def access():
@@ -64,7 +68,7 @@ def access():
     listInfoUserAccess = cur.fetchall()
     if not listInfoUserAccess:
         flash("Incorrect username!")
-        return render_template("login.html")
+        return redirect("/login")
     else:
         userInfoAccess = listInfoUserAccess[0]
 
@@ -74,4 +78,4 @@ def access():
             return redirect("/")
         else:
             flash("Incorrect password!")
-            return render_template("login.html")
+            return redirect("/login")
