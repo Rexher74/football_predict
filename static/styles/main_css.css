@@ -9,6 +9,18 @@
     background: linear-gradient(to right, #eafbff, #edfbff, #e8f6ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+.main-div-page-dashboard{
+    padding-top: 3%;
+    padding-bottom: 5%;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #2980B9;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #eafbff, #edfbff, #e8f6ff);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #eafbff, #edfbff, #e8f6ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 .centrated-form{
     width: 30vw;
     background-color: white;
@@ -16,22 +28,87 @@
     border-radius: 5px;
 }
 
+.main_table_classification{
+    width: 100%;
+}
+
+.imgShieldTeam{
+    height: 30px;
+    margin-right: 5px;
+}
+
 .main-dashboard{
     height: 90%;
     width: 90%;
     border-radius: 10px;
     background-color: white;
-    padding: 20px;
+    padding: 30px 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .title_welcome{
     font-size: 40px;
     font-family: "Varela Round", sans-serif;
+    margin-bottom: 15px;
+}
+
+.table_predictions_dashboard{
+    text-align: center;
+    font-size: 20px;
+}
+
+#prediction_table{
+    width: 50%;
+    border-radius: 5px;
+    font-family: "Varela Round", sans-serif;
+    overflow: auto;
+}
+
+#make-prediction-title{
+    text-align: center;
+    font-size: 30px;
+    padding: 10px;
+    font-weight: 600;
+}
+
+.clickableButton{
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 2px;
+    color: white;
+    font-weight: 700;
+    background-color:#63a7d4;
+}
+
+.selectedButtonPredict{
+    background-color:#063452;
+    color: white;
+}
+
+#button-save-prediction{
+    font-size: 25px;
 }
 
 @media (max-width: 1400px) {
-    .centrated-form{
+    .centrated-form {
         width: 50vw;
+    }
+    #prediction_table {
+        width: 60%;
+    }
+    .main-dashboard {
+        padding: 25px 45px;
+    }
+    .table_predictions_dashboard{
+        font-size: 17px;
+    }
+    #button-save-prediction{
+        font-size: 23px;
+    }
+    .imgShieldTeam{
+        height: 32px;
     }
 }
 
@@ -39,19 +116,98 @@
     .centrated-form{
         width: 60vw;
     }
+    .title_welcome{
+        font-size: 35px;
+    }
+    #make-prediction-title{
+        font-size: 25px;
+    }
+    #prediction_table{
+        width: 70%;
+    }
+    .main-dashboard {
+        padding: 20px 40px;
+    }
+    .table_predictions_dashboard{
+        font-size: 15px;
+    }
+    #button-save-prediction{
+        font-size: 18px;
+    }
+    .imgShieldTeam{
+        height: 28px;
+    }
 }
 @media (max-width: 1000px) {
     .centrated-form{
         width: 70vw;
+    }
+    #prediction_table{
+        width: 80%;
+    }
+    .main-dashboard {
+        padding: 15px 35px;
+        flex-direction: column;
+    }
+    .table_predictions_dashboard{
+        font-size: 13px;
+    }
+    #button-save-prediction{
+        font-size: 15px;
+    }
+    .imgShieldTeam{
+        height: 25px;
     }
 }
 @media (max-width: 800px) {
     .centrated-form{
         width: 80vw;
     }
+    .title_welcome{
+        font-size: 30px;
+    }
+    #make-prediction-title{
+        font-size: 20px;
+    }
+    #prediction_table{
+        width: 90%;
+    }
+    .main-dashboard {
+        padding: 10px 30px;
+    }
+    .table_predictions_dashboard{
+        font-size: 11px;
+    }
+    #button-save-prediction{
+        font-size: 14px;
+    }
+    .imgShieldTeam{
+        height: 22px;
+    }
 }
 @media (max-width: 600px) {
     .centrated-form{
         width: 90vw;
+    }
+    .title_welcome{
+        font-size: 25px;
+    }
+    #make-prediction-title{
+        font-size: 15px;
+    }
+    #prediction_table{
+        width: 100%;
+    }
+    .main-dashboard {
+        padding: 10px 20px;
+    }
+    .table_predictions_dashboard{
+        font-size: 9px;
+    }
+    #button-save-prediction{
+        font-size: 12px;
+    }
+    .imgShieldTeam{
+        height: 20px;
     }
 }
