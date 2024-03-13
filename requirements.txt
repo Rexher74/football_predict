@@ -1,3 +1,6 @@
 Flask
 Gunicorn
 flask_mysqldb
+datetime
+bs4
+requests
