@@ -1,9 +1,31 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Home</title>
-    </head>
-    <body>
-        <h1>Welcome {{usernameSession}}!</h1>
-    </body>
-</html>
+{% extends "layout.html"%}
+
+{% block body %}
+
+    <div class="main-div-page">
+        <div class="main-dashboard">
+
+            <div class="title_welcome">Welcome {{usernameSession}}!</div>
+            <table class="table table-striped" style="width: 50%;">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Points</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for user in usersToLoad %}
+                    <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>{{ user[0] }}</td>
+                    <td>{{ user[1] }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+{% endblock %}
