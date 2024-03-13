@@ -2,30 +2,131 @@
 
 {% block body %}
 
-    <div class="main-div-page">
+    <div class="main-div-page-dashboard">
         <div class="main-dashboard">
-
-            <div class="title_welcome">Welcome {{usernameSession}}!</div>
-            <table class="table table-striped" style="width: 50%;">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Points</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {% for user in usersToLoad %}
+            <div>
+                <div class="title_welcome">Welcome {{usernameSession}}!</div>
+                <table class="table table-striped main_table_classification">
+                    <thead>
                     <tr>
-                    <th scope="row">{{loop.index}}</th>
-                    <td>{{ user[0] }}</td>
-                    <td>{{ user[1] }}</td>
-                  </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Points</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in usersToLoad %}
+                        <tr>
+                            <th scope="row">{{loop.index}}</th>
+                            <td>{{ user[0] }}</td>
+                            <td>{{ user[1] }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div id="prediction_table">
+                <div id="make-prediction-title">Make Prediction</div>
+                <table class="table table-bordered table_predictions_dashboard">
+                    <thead>
+                      <tr>
+                        <th style="text-align: center;">Local</th>
+                        <th style="text-align: center;">Result</th>
+                        <th style="text-align: center;">Visitor</th>
+                        <th style="text-align: center;">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for macth in GCMD %}
+                            <tr>
+                                <td style="text-align: left;"><img src="{{macth[0][1]}}" class="imgShieldTeam">{{ macth[0][0] }}</td>
+                                <td><div style="display: inline-flex"><div id="local{{loop.index}}" onclick="updatePrediction({{loop.index}}, 1)" class="clickableButton">1</div> <div id="draw{{loop.index}}" onclick="updatePrediction({{loop.index}}, 0)" class="clickableButton" style="margin-left: 5px; margin-right: 5px;">x</div> <div id="visitor{{loop.index}}" onclick="updatePrediction({{loop.index}}, 2)" class="clickableButton">2</div></div></td>
+                                <td style="text-align: left;"><img src="{{macth[2][1]}}" class="imgShieldTeam">{{ macth[2][0] }}</td>
+                                <td>{{ macth[1] }}</td> 
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                  <button type="button"id="button-save-prediction" onclick="sendPrediction()" class="btn btn-primary btn-lg btn-block">Save Prediction</button>
+            </div>
         </div>
     </div>
+    <script>
+
+        var CP_Done = {{ CP }}
+
+        dataPrediction = {
+            g1:null,
+            g2:null,
+            g3:null,
+            g4:null,
+            g5:null,
+            g6:null,
+            g7:null,
+            g8:null,
+            g9:null,
+            g10:null,
+        }
+
+        dictEqui = {
+            1:"local",
+            0:"draw",
+            2:"visitor"
+        }
+
+        function loadCurrentPredictions() {
+            if (CP_Done != []) {
+                for (i = 0; i <  CP_Done.length; i++) {
+                    document.getElementById(dictEqui[CP_Done[i]]+(i+1)).classList.add("selectedButtonPredict")
+                    dataPrediction[`g${i+1}`] = CP_Done[i]
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadCurrentPredictions)
+
+        function updatePrediction(game, val){
+            if (dataPrediction[`g${game}`] == val) {
+                document.getElementById(dictEqui[dataPrediction[`g${game}`]]+game).classList.remove("selectedButtonPredict")
+                dataPrediction[`g${game}`] = null
+            }
+            else {
+                if (dataPrediction[`g${game}`] != null) {
+                    document.getElementById(dictEqui[dataPrediction[`g${game}`]]+game).classList.remove("selectedButtonPredict")
+                }
+    
+                dataPrediction[`g${game}`] = val
+                document.getElementById(`${dictEqui[val]}${game}`).classList.add("selectedButtonPredict");
+            }
+        }
+
+        function sendPrediction(){
+            allCompleated = true
+
+            for (let key in dataPrediction) {
+                if (dataPrediction[key] == null) allCompleated = false
+            }
+
+            if (allCompleated) {
+                fetch(window.location.href+"/save-prediction", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        dataPrediction
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                }).then(function(response){
+                    response.json().then((data) => {
+                        alert(data)
+                    })
+                })
+            }
+
+            else {
+                alert("You have to complete all game predictions!")
+            }
+        }
+    </script>
 
 {% endblock %}
