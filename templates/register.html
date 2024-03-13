@@ -1,28 +1,33 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Register</title>
-    </head>
-    <style>
-        
-    </style>
-    <body>
+{% extends "layout.html" %}
+{% block body %}
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div style="background-color: #ff2f2f9d">
+                    <div class="alert alert-danger" role="alert" style="position: absolute; width: 100vw;">
                         <strong>{{message}}</strong>
                     </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <form action="/register-user" method="post">
-            <h1>Register</h1>
-            <input placeholder="Create a username..." type="text" name="usernameRegister">
-            <input placeholder="Create a password..." type="password" name="passwordRegister">
-            <input placeholder="Type the access code..." type="text" name="codeRegister">
-            <button type="submit">Create an account!</button>
-        </form>
-        <p>Already have an account?</p><a href="https://football-predict.onrender.com/login">LogIn.</a>
-    </body>
-</html>
+        <div class="main-div-page">
+            <div class="centrated-form">
+                <form action="/register-user" method="post">
+                    <h1 style="text-align: center">Register</h1>
+                    <div class="form-group">
+                        <label for="inputUsername">Username</label>
+                        <input type="text" class="form-control" id="inputUsername" placeholder="Create a username..." name="usernameRegister" maxlength="15">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Password</label>
+                        <input type="password" class="form-control" id="inputPassword" placeholder="Create a password..." name="passwordRegister" maxlength="15">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAccessCode">Access Code</label>
+                        <input type="text" class="form-control" id="inputAccessCode" placeholder="Type the access code..." name="codeRegister" maxlength="20">
+                    </div>
+                    <button class="btn btn-primary" type="submit">Create an account!</button>
+                </form>
+                <p style="margin-top: 10px">Already have an account?</p><a href="https://football-predict.onrender.com/login" style="display: inline">LogIn.</a>
+            </div>
+        </div>
+{% endblock %}
