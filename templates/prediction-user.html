@@ -1,0 +1,117 @@
+{% extends "layout.html"%}
+    {% block body %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-danger" role="alert" style="position: absolute; width: 100vw;">
+                        <strong>{{message}}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    <div class="main-div-page-dashboard">
+        <div class="main-dashboard-userInfo">
+            <div id="go-back-Btn" onclick="location.href = '/'">Go Home</div>
+            <div class="prediction_table">
+                <div id="make-prediction-title">{{UL}} Prediction / Matchday {{MDTL}}</div>
+                <div class="form-group">
+                    <label for="matchdaySelect">Change matchday</label>
+                    <select class="form-control" id="matchdaySelect" name="matchdayChangeUser">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="31">31</option>
+                        <option value="32">32</option>
+                        <option value="33">33</option>
+                        <option value="34">34</option>
+                        <option value="35">35</option>
+                        <option value="36">36</option>
+                        <option value="37">37</option>
+                        <option value="38">38</option>
+                    </select>
+                </div>
+                {% if GMD != [] %}
+                    <table class="table table-bordered table_predictions_dashboard">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center;">Local</th>
+                            <th style="text-align: center;">Result</th>
+                            <th style="text-align: center;">Visitor</th>
+                            <th style="text-align: center;">Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                                {% for macth in GMD %}
+                                    <tr>
+                                        <td style="text-align: left;"><img src="{{macth[0][1]}}" class="imgShieldTeam">{{ macth[0][0] }}</td>
+                                        <td><div style="display: inline-flex"><div id="local{{loop.index}}" class="clickableButton">1</div> <div id="draw{{loop.index}}" class="clickableButton" style="margin-left: 5px; margin-right: 5px;">x</div> <div id="visitor{{loop.index}}" class="clickableButton">2</div></div></td>
+                                        <td style="text-align: left;"><img src="{{macth[2][1]}}" class="imgShieldTeam">{{ macth[2][0] }}</td>
+                                        <td>{{ macth[1] }}</td> 
+                                    </tr>
+                                {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                  <div class="text_no_info">No prediction of {{UL}} for matchday {{MDTL}}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script>
+
+        dictEqui = {
+            1:"local",
+            0:"draw",
+            2:"visitor"
+        }
+
+        BP_Done = {{BP}}
+
+        if (BP_Done != []) {
+            function loadCurrentPredictions() {
+                if (BP_Done != []) {
+                    for (i = 0; i <  BP_Done.length; i++) {
+                        document.getElementById(dictEqui[BP_Done[i]]+(i+1)).classList.add("selectedButtonPredict")
+                    }
+                }
+            }
+            document.addEventListener("DOMContentLoaded", loadCurrentPredictions)
+
+            var selectChangeMatchday = document.getElementById("matchdaySelect")
+
+            selectChangeMatchday.value = {{MDTL}};
+
+            selectChangeMatchday.addEventListener("change", function(){
+                location.href = `/user/{{UL}}/${selectChangeMatchday.value}`
+            })
+        }
+
+    </script>
+    {% endblock %}
