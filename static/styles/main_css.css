@@ -78,7 +78,8 @@ body {
     overflow: auto;
 }
 
-#make-prediction-title{
+.title-home-dashboard{
+    font-family: "Varela Round", sans-serif;
     text-align: center;
     font-size: 30px;
     padding: 10px;
@@ -195,7 +196,7 @@ body {
     .title_welcome{
         font-size: 35px;
     }
-    #make-prediction-title{
+    .title-home-dashboard{
         font-size: 25px;
     }
     .prediction_table{
@@ -266,7 +267,7 @@ body {
     .title_welcome{
         font-size: 30px;
     }
-    #make-prediction-title{
+    .title-home-dashboard{
         font-size: 20px;
     }
     .prediction_table{
@@ -304,7 +305,7 @@ body {
     .title_welcome{
         font-size: 25px;
     }
-    #make-prediction-title{
+    .title-home-dashboard{
         font-size: 15px;
     }
     .prediction_table{
@@ -339,7 +340,7 @@ body {
 
 
 @media (max-width: 475px) {
-    #make-prediction-title {
+    .title-home-dashboard {
         margin-top: 20px;
     }
 }
