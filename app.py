@@ -87,6 +87,7 @@ def getValRes(res):
         return 0  # Los números son iguales
 
 dictPoints = {
+    0: 0,
     1: 1,
     2: 2,
     3: 5,
@@ -101,7 +102,7 @@ dictPoints = {
 
 @app.route('/')
 def home():
-    if session.get('username') is None:
+    if session.get('username') is None and session.get('user_id') is None:
         return redirect("/register")
     else:
         usernameSession = session["username"]
@@ -114,7 +115,6 @@ def home():
 
         if datetime.now() > dataMatchDay[0]:
             nextDate = updateTimeMatchday(dataMatchDay[1])
-
             cur = mysql.connection.cursor()
             cur.execute("UPDATE matchdaydata SET matchday = matchday + 1, value = %s WHERE type = 0", [nextDate[0]])
             mysql.connection.commit()
@@ -129,7 +129,7 @@ def home():
                 correctResults.append(getValRes(match[1]))
 
             cur = mysql.connection.cursor()
-            cur.execute("SELECT user_id, g1, g2, g3, g4, g5, g6, g7, g8, g9, g10 FROM predictions WHERE matchday = %s", [dataMatchDay[1]])
+            cur.execute("SELECT user_id, g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, username FROM predictions WHERE matchday = %s", [dataMatchDay[1]])
             allPredictions = cur.fetchall()
 
             for userPred in allPredictions:
@@ -138,6 +138,10 @@ def home():
                     if correctResults[i] == userPred[i+1]:
                         numCorrects+=1
                 pointsToGive = dictPoints[numCorrects]
+
+                cur = mysql.connection.cursor()
+                cur.execute("INSERT INTO points (user_id, username, points, matchday) VALUES (%s, %s, %s, %s)", (userPred[0], userPred[11], pointsToGive, dataMatchDay[1]))
+                mysql.connection.commit()
 
                 cur = mysql.connection.cursor()
                 cur.execute("UPDATE users SET points = points + %s WHERE id = %s", (pointsToGive, userPred[0]))
@@ -280,3 +284,26 @@ def getUser(usernameToLoad, matchDayToLoad):
             predictsToPass.append(pred)
 
         return render_template("prediction-user.html", UL = usernameToLoad, MDTL = matchDayToLoad, BP = predictsToPass, GMD = gamesMacthDaySelected)
+    
+
+@app.route("/loadClassification", methods=["POST"])
+def loadClassification():
+
+    dataMD = request.json["newVal"]
+
+    if dataMD == "general":
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT username, points FROM users ORDER BY points DESC")
+        usersToLoad = cur.fetchall()
+
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT matchday FROM matchdaydata WHERE type = 0")
+        dataMD = cur.fetchall()[0][0]
+
+    else:
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT username, points FROM points WHERE matchday=%s ORDER BY points DESC", [dataMD])
+        usersToLoad = cur.fetchall()
+
+
+    return render_template("table_classification.html", usersToLoad = usersToLoad, MD_Home = dataMD)
