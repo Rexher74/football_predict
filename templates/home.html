@@ -4,6 +4,7 @@
 
     <div class="main-div-page-dashboard">
         <div class="main-dashboard">
+            <div id="sign-out-Btn" onclick="signout()">Sign Out</div>
             <div>
                 <div class="title_welcome">Welcome {{usernameSession}}!</div>
                 <table class="table table-striped main_table_classification">
@@ -18,14 +19,14 @@
                     {% for user in usersToLoad %}
                         <tr>
                             <th scope="row">{{loop.index}}</th>
-                            <td>{{ user[0] }}</td>
+                            <td class="clickableUsernameHome" title="Click to see {{user[0]}} predictions" onclick="location.href = '/user/{{user[0]}}/{{MD_Home}}'">{{ user[0] }}</td>
                             <td>{{ user[1] }}</td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             </div>
-            <div id="prediction_table">
+            <div class="prediction_table">
                 <div id="make-prediction-title">Make Prediction</div>
                 <table class="table table-bordered table_predictions_dashboard">
                     <thead>
@@ -52,6 +53,10 @@
         </div>
     </div>
     <script>
+
+        function signout() {
+            location.href = "/signout";
+        }
 
         var CP_Done = {{ CP }}
 
