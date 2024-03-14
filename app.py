@@ -159,7 +159,7 @@ def home():
         cur.execute("SELECT username, points FROM users ORDER BY points DESC")
         usersToLoad = cur.fetchall()
 
-        return render_template('home.html', usernameSession = usernameSession, usersToLoad = usersToLoad, GCMD = gamesCurentMatchday, CP = predictsToPass)
+        return render_template('home.html', usernameSession = usernameSession, usersToLoad = usersToLoad, GCMD = gamesCurentMatchday, CP = predictsToPass, MD_Home = dataMatchDay[1])
 
 @app.route("/register")
 def register():
@@ -173,24 +173,28 @@ def login():
 def registerUser():
     usernameRegister = request.form.get("usernameRegister")
     passwordRegister = request.form.get("passwordRegister")
-    codeRegister = str(request.form.get("codeRegister"))
+    codeRegister = request.form.get("codeRegister")
 
-    if codeRegister == "realoviedoaprimera":
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT username FROM users WHERE LOWER(username) = %s", [usernameRegister.lower()])
-        sameUsername = cur.fetchall()
-        if not sameUsername:
-            cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (usernameRegister, passwordRegister))
-            mysql.connection.commit()
-            return redirect("/login")
-        else:
-            flash("This username already exists!")
-            return redirect("/register")
-
-    else:
-        flash("Incorrect access code!")
+    if not usernameRegister.isalnum():
+        flash("Username can only contain letters and numbers!")
         return redirect("/register")
+    else:
+        if codeRegister == "realoviedoaprimera":
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT username FROM users WHERE LOWER(username) = %s", [usernameRegister.lower()])
+            sameUsername = cur.fetchall()
+            if not sameUsername:
+                cur = mysql.connection.cursor()
+                cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (usernameRegister, passwordRegister))
+                mysql.connection.commit()
+                return redirect("/login")
+            else:
+                flash("This username already exists!")
+                return redirect("/register")
+
+        else:
+            flash("Incorrect access code!")
+            return redirect("/register")
 
 
 @app.route("/access", methods=["POST"])
@@ -249,3 +253,30 @@ def savePrediction():
         
         else:
             return make_response(jsonify("You are out of time!"))
+        
+@app.route("/signout")
+def signOut():
+    session.clear()
+    return redirect("/")
+
+@app.route("/user/<string:usernameToLoad>/<int:matchDayToLoad>")
+def getUser(usernameToLoad, matchDayToLoad):
+
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT g1, g2, g3, g4, g5, g6, g7, g8, g9, g10 FROM predictions WHERE username=%s AND matchday = %s", (usernameToLoad, matchDayToLoad))
+    basePredictionUser = cur.fetchall()
+
+    if not basePredictionUser:
+        gamesMacthDaySelected = []
+        basePredictionUser = []
+
+        return render_template("prediction-user.html", UL = usernameToLoad, MDTL = matchDayToLoad, BP = basePredictionUser, GMD = gamesMacthDaySelected)
+    else:
+        basePredictionUser = basePredictionUser[0]
+        gamesMacthDaySelected = getGames(matchDayToLoad)
+
+        predictsToPass = []
+        for pred in basePredictionUser:
+            predictsToPass.append(pred)
+
+        return render_template("prediction-user.html", UL = usernameToLoad, MDTL = matchDayToLoad, BP = predictsToPass, GMD = gamesMacthDaySelected)
