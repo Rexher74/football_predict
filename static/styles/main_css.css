@@ -1,12 +1,15 @@
+body {
+    background: #2980B9;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #eafbff, #edfbff, #e8f6ff);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #eafbff, #edfbff, #e8f6ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 .main-div-page{
     width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #2980B9;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #eafbff, #edfbff, #e8f6ff);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #eafbff, #edfbff, #e8f6ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .main-div-page-dashboard{
@@ -16,9 +19,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #2980B9;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #eafbff, #edfbff, #e8f6ff);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #eafbff, #edfbff, #e8f6ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .centrated-form{
@@ -38,6 +38,7 @@
 }
 
 .main-dashboard{
+    position: relative;
     height: 90%;
     width: 90%;
     border-radius: 10px;
@@ -46,6 +47,17 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.main-dashboard-userInfo{
+    position: relative;
+    height: 90%;
+    width: 90%;
+    border-radius: 10px;
+    background-color: white;
+    padding: 30px 50px;
+    display: flex;
+    justify-content: center;
 }
 
 .title_welcome{
@@ -59,7 +71,7 @@
     font-size: 20px;
 }
 
-#prediction_table{
+.prediction_table{
     width: 50%;
     border-radius: 5px;
     font-family: "Varela Round", sans-serif;
@@ -91,14 +103,75 @@
     font-size: 25px;
 }
 
+#sign-out-Btn {
+    padding: 6px;
+    color: white;
+    background-color: #df5555;
+    font-family: "Varela Round", sans-serif;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background .3s;
+}
+
+#sign-out-Btn:hover {
+    background: #861313;
+}
+
+#go-back-Btn{
+    padding: 6px;
+    background-color: #d8d8d8;
+    font-family: "Varela Round", sans-serif;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background .3s;
+    font-weight: 600;
+}
+
+#go-back-Btn:hover{
+    background: #ababab;
+}
+
+.clickableUsernameHome{
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background .4s;
+}
+
+.clickableUsernameHome:hover{
+    background: #e0e0e0;
+}
+
+.text_no_info{
+    font-family: "Varela Round", sans-serif;
+    font-size: 25px;
+    text-align: center;
+}
+
 @media (max-width: 1400px) {
+    #sign-out-Btn {
+        font-size: 17px;
+    }
+    #go-back-Btn{
+        font-size: 17px;
+    }
     .centrated-form {
         width: 50vw;
     }
-    #prediction_table {
+    .prediction_table {
         width: 60%;
     }
     .main-dashboard {
+        padding: 25px 45px;
+    }
+    .main-dashboard-userInfo {
         padding: 25px 45px;
     }
     .table_predictions_dashboard{
@@ -109,6 +182,9 @@
     }
     .imgShieldTeam{
         height: 32px;
+    }
+    .text_no_info{
+        font-size: 22px;
     }
 }
 
@@ -122,10 +198,13 @@
     #make-prediction-title{
         font-size: 25px;
     }
-    #prediction_table{
+    .prediction_table{
         width: 70%;
     }
     .main-dashboard {
+        padding: 20px 40px;
+    }
+    .main-dashboard-userInfo {
         padding: 20px 40px;
     }
     .table_predictions_dashboard{
@@ -137,17 +216,29 @@
     .imgShieldTeam{
         height: 28px;
     }
+    #sign-out-Btn {
+        font-size: 16px;
+    }
+    #go-back-Btn{
+        font-size: 15px;
+    }
+    .text_no_info{
+        font-size: 18px;
+    }
 }
 @media (max-width: 1000px) {
     .centrated-form{
         width: 70vw;
     }
-    #prediction_table{
+    .prediction_table{
         width: 80%;
     }
     .main-dashboard {
         padding: 15px 35px;
         flex-direction: column;
+    }
+    .main-dashboard-userInfo {
+        padding: 15px 35px;
     }
     .table_predictions_dashboard{
         font-size: 13px;
@@ -157,6 +248,15 @@
     }
     .imgShieldTeam{
         height: 25px;
+    }
+    #sign-out-Btn {
+        font-size: 14px;
+    }
+    #go-back-Btn{
+        font-size: 13px;
+    }
+    .text_no_info{
+        font-size: 16px;
     }
 }
 @media (max-width: 800px) {
@@ -169,10 +269,13 @@
     #make-prediction-title{
         font-size: 20px;
     }
-    #prediction_table{
+    .prediction_table{
         width: 90%;
     }
     .main-dashboard {
+        padding: 10px 30px;
+    }
+    .main-dashboard-userInfo {
         padding: 10px 30px;
     }
     .table_predictions_dashboard{
@@ -183,6 +286,15 @@
     }
     .imgShieldTeam{
         height: 22px;
+    }
+    #sign-out-Btn {
+        font-size: 12px;
+    }
+    #go-back-Btn{
+        font-size: 10px;
+    }
+    .text_no_info{
+        font-size: 14px;
     }
 }
 @media (max-width: 600px) {
@@ -195,10 +307,13 @@
     #make-prediction-title{
         font-size: 15px;
     }
-    #prediction_table{
+    .prediction_table{
         width: 100%;
     }
     .main-dashboard {
+        padding: 10px 20px;
+    }
+    .main-dashboard-userInfo {
         padding: 10px 20px;
     }
     .table_predictions_dashboard{
@@ -209,5 +324,22 @@
     }
     .imgShieldTeam{
         height: 20px;
+    }
+    #sign-out-Btn {
+        font-size: 10px;
+    }
+    #go-back-Btn{
+        font-size: 8px;
+    }
+    .text_no_info{
+        font-size: 12px;
+    }
+}
+
+
+
+@media (max-width: 475px) {
+    #make-prediction-title {
+        margin-top: 20px;
     }
 }
