@@ -113,7 +113,7 @@ def home():
 
         gamesCurentMatchday = getGames(dataMatchDay[1])
 
-        if datetime.now() > dataMatchDay[0]:
+        if datetime.now()+timedelta(hours=1) > dataMatchDay[0]:
             nextDate = updateTimeMatchday(dataMatchDay[1])
             cur = mysql.connection.cursor()
             cur.execute("UPDATE matchdaydata SET matchday = matchday + 1, value = %s WHERE type = 0", [nextDate[0]])
@@ -237,7 +237,7 @@ def savePrediction():
         limitToPost = cur.fetchall()[0][0]
 
         # Update time to correct server time
-        limitToPost = limitToPost + timedelta(hours=1)
+        limitToPost = limitToPost - timedelta(hours=1)
 
         if (limitToPost > datetime.now()):
             print("You are in time")
