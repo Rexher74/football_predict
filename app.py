@@ -236,7 +236,13 @@ def savePrediction():
         cur.execute("SELECT value FROM matchdaydata WHERE type = 1")
         limitToPost = cur.fetchall()[0][0]
 
+        print(limitToPost < datetime.now())
+        print(limitToPost > datetime.now())
+        print(limitToPost)
+        print(datetime.now())
+
         if (limitToPost > datetime.now()):
+            print("You are in time")
             cur = mysql.connection.cursor()
             cur.execute("SELECT id FROM predictions WHERE user_id = %s AND matchday = %s", (session["user_id"], matchdayToPost))
             userMatchdayCurrentPost = cur.fetchall()
