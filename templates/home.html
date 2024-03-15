@@ -5,7 +5,7 @@
     <div class="main-div-page-dashboard">
         <div class="main-dashboard">
             <div id="sign-out-Btn" onclick="signout()">Sign Out</div>
-            <div>
+            <div style="min-width: 30%;">
                 <div class="title_welcome">Welcome {{usernameSession}}!</div>
                 <div class="title-home-dashboard" style="padding-top: 0;">Classification</div>
                 <select class="form-control" id="classificationSelect" name="classificationSelect" style="margin-bottom: 10px;">
@@ -67,6 +67,63 @@
                     {% endfor %}
                     </tbody>
                 </table>
+                <div id="arrowDownShowPointsEqui" class="arrow-down"></div>
+                <div id="pointsEquivalencesDiv" style="display: none;">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Hits</th>
+                            <th scope="col">Points</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">0</th>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">5</th>
+                                <td>25</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">6</th>
+                                <td>50</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">7</th>
+                                <td>100</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">8</th>
+                                <td>250</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">9</th>
+                                <td>500</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">10</th>
+                                <td>1.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="prediction_table">
                 <div class="title-home-dashboard">Make Prediction</div>
@@ -76,7 +133,7 @@
                         <th style="text-align: center;">Local</th>
                         <th style="text-align: center;">Result</th>
                         <th style="text-align: center;">Visitor</th>
-                        <th style="text-align: center;">Date</th>
+                        <th style="text-align: center;">Result/Date</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -198,8 +255,22 @@
 
         })
 
+        var arrowPoints = document.getElementById("arrowDownShowPointsEqui");
+        var divHitsPoints = document.getElementById("pointsEquivalencesDiv");
+
+        arrowPoints.addEventListener("click", function(){
+            if (divHitsPoints.style.display == "none") {
+                divHitsPoints.style.display = "block";
+                arrowPoints.style.transform = "rotate(225deg)";
+            }
+            else {
+                divHitsPoints.style.display = "none";
+                arrowPoints.style.transform = "rotate(45deg)";
+            }
+        })
+
+
 
     </script>
 
 {% endblock %}
-
