@@ -236,10 +236,8 @@ def savePrediction():
         cur.execute("SELECT value FROM matchdaydata WHERE type = 1")
         limitToPost = cur.fetchall()[0][0]
 
-        print(limitToPost < datetime.now())
-        print(limitToPost > datetime.now())
-        print(limitToPost)
-        print(datetime.now())
+        # Update time to correct server time
+        limitToPost = limitToPost + timedelta(hours=1)
 
         if (limitToPost > datetime.now()):
             print("You are in time")
