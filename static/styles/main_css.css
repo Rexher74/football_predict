@@ -93,6 +93,7 @@ body {
     color: white;
     font-weight: 700;
     background-color:#63a7d4;
+    transition: background .25s;
 }
 
 .selectedButtonPredict{
@@ -156,6 +157,22 @@ body {
     text-align: center;
 }
 
+.arrow-down {
+    border: solid #d1d1d1;
+    border-width: 0 7px 7px 0;
+    display: inline-block;
+    padding: 8px;
+    transition: border .4s, transform .4s;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    cursor: pointer;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+.arrow-down:hover{
+    border-color: #8a8a8a;
+}
+
 @media (max-width: 1400px) {
     #sign-out-Btn {
         font-size: 17px;
@@ -199,9 +216,6 @@ body {
     .title-home-dashboard{
         font-size: 25px;
     }
-    .prediction_table{
-        width: 70%;
-    }
     .main-dashboard {
         padding: 20px 40px;
     }
@@ -232,7 +246,7 @@ body {
         width: 70vw;
     }
     .prediction_table{
-        width: 80%;
+        width: 100%;
     }
     .main-dashboard {
         padding: 15px 35px;
@@ -336,8 +350,6 @@ body {
         font-size: 12px;
     }
 }
-
-
 
 @media (max-width: 475px) {
     .title-home-dashboard {
