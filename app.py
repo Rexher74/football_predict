@@ -58,7 +58,7 @@ def updateTimeMatchday(currentJornada):
 
     newTimeFormated = newTimeFormated.replace(year=2024)
 
-    newTimeFormated = newTimeFormated + timedelta(hours=3)
+    newTimeFormated = newTimeFormated + timedelta(hours=10)
 
     # Start Matchday
 
