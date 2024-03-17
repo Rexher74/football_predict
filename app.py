@@ -311,3 +311,40 @@ def loadClassification():
 
 
     return render_template("table_classification.html", usersToLoad = usersToLoad, MD_Home = dataMD)
+
+@app.route("/loadLive", methods=["POST"])
+def loadLiveClassification():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT value, matchday FROM matchdaydata WHERE type = 0")
+    _matchDay = cur.fetchall()[0][1]
+
+    gamesCurentMatchday = getGames(_matchDay)
+
+    correctResults = []
+    numUpdatedRes = 0
+
+    for match in gamesCurentMatchday:
+        try:
+            correctResults.append(getValRes(match[1]))
+            numUpdatedRes+=1
+        except:
+            break
+
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT user_id, g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, username FROM predictions WHERE matchday = %s", [_matchDay])
+    allPredictions = cur.fetchall()
+
+    userDataLive = []
+
+    for userPred in allPredictions:
+        numCorrects = 0
+        for i in range(numUpdatedRes):
+            if correctResults[i] == userPred[i+1]:
+                numCorrects+=1
+        pointsToGive = dictPoints[numCorrects]
+
+        userDataLive.append([userPred[11], numCorrects, pointsToGive])
+
+    userDataLive_sorted = sorted(userDataLive, key=lambda x: x[1], reverse=True)
+
+    return render_template("table_classification_live.html", totalUpdated = numUpdatedRes, UDL = userDataLive_sorted, MD_Home = _matchDay)
