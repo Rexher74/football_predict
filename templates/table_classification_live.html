@@ -1,0 +1,18 @@
+<thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Username</th>
+        <th scope="col">Hits</th>
+        <th scope="col">Points</th>
+    </tr>
+</thead>
+<tbody>
+    {% for user in UDL %}
+        <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td class="clickableUsernameHome" title="Click to see {{user[0]}} predictions" onclick="location.href = '/user/{{user[0]}}/{{MD_Home}}'">{{ user[0] }}</td>
+            <td>{{ user[1] }}</td>
+            <td>{{ user[2] }}</td>
+        </tr>
+    {% endfor %}
+</tbody>
