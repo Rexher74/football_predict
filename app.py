@@ -148,7 +148,7 @@ def home():
                 mysql.connection.commit()
 
         cur = mysql.connection.cursor()
-        cur.execute("SELECT g1, g2, g3, g4, g5, g6, g7, g8, g9, g10 FROM predictions WHERE user_id=%s", [session["user_id"]])
+        cur.execute("SELECT g1, g2, g3, g4, g5, g6, g7, g8, g9, g10 FROM predictions WHERE user_id=%s AND matchday=%s", (session["user_id"], dataMatchDay[1]))
         currentpredictions = cur.fetchall()
 
         if not currentpredictions:
