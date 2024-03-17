@@ -10,6 +10,7 @@
                 <div class="title-home-dashboard" style="padding-top: 0;">Classification</div>
                 <select class="form-control" id="classificationSelect" name="classificationSelect" style="margin-bottom: 10px;">
                     <option value="general" selected>General</option>
+                    <option value="live">Live</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -238,21 +239,33 @@
         selectClassification.addEventListener("change", function(){
             let newVal = selectClassification.value;
 
-            fetch("/loadClassification", {
-                method: "POST",
-                body: JSON.stringify({
-                    newVal
-                }),
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-            }).then(function(response){
-                response.text().then((data) => {
-                    tableClassification.innerHTML = data
+            if (newVal == "live") {
+                fetch("/loadLive", {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                }).then(function(response){
+                    response.text().then((data) => {
+                        tableClassification.innerHTML = data
+                    })
                 })
-            })
-
-
+            }
+            else {
+                fetch("/loadClassification", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        newVal
+                    }),
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                }).then(function(response){
+                    response.text().then((data) => {
+                        tableClassification.innerHTML = data
+                    })
+                })
+            }
         })
 
         var arrowPoints = document.getElementById("arrowDownShowPointsEqui");
@@ -268,8 +281,6 @@
                 arrowPoints.style.transform = "rotate(45deg)";
             }
         })
-
-
 
     </script>
 
